@@ -1,0 +1,22 @@
+{
+	"manifest_version": 2,
+	"name": "Encrypt Facebook Messenger",
+	"version": "1.0",
+	"description": "Automatically encrypts and decrypts your messages on messenger.com",
+	"permissions": [
+		"storage"
+	],
+	"options_ui": {
+		"page": "options.html",
+		"open_in_tab": false
+	},
+	"content_scripts": 
+	[
+		{
+			"matches": ["*://www.messenger.com/*"],
+			"js": ["./bower_components/crypto-js/crypto-js.js", "content_script.js"],
+			"run_at": "document_end"
+		}
+	]
+}
+
