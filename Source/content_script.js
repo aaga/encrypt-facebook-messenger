@@ -10,17 +10,32 @@ chrome.storage.sync.get(
     setInterval(() => decryptMessages(), 100);
     document.addEventListener("keydown", e => {
       if (e.code === "Enter") {
-        var textbox = document.querySelector("span[data-text='true']");
-        var messageToSend = textbox.textContent;
-        textbox.textContent =
-          "FacebookCantTouchThis(" +
-          CryptoJS.AES.encrypt(messageToSend, secretKey).toString() +
-          ")";
-        textbox.dispatchEvent(inputChangedEvent);
+        encryptMessage();
       }
     });
   }
 );
+
+function encryptMessage() {
+  var textbox = document.querySelector("div[data-block='true']");
+  var messageToSend = textbox.innerText;
+  
+  // Clear all text in text boxes
+  var elems = [];
+  document.querySelectorAll("span[data-text='true']").forEach(elem => {
+    elems.push(elem);
+  });
+  elems.reverse().map(elem => {
+    elem.innerText = "";
+    elem.dispatchEvent(inputChangedEvent);
+  });
+
+  textbox.innerText =
+    "FacebookCantTouchThis(" +
+    CryptoJS.AES.encrypt(messageToSend, secretKey).toString() +
+    ")";
+  textbox.dispatchEvent(inputChangedEvent);
+}
 
 function decryptMessages() {
   var messagesDiv = document.querySelector("div[aria-label='Messages']");
@@ -71,8 +86,20 @@ function walk(node) {
 function handleText(textNode) {
   var v = textNode.nodeValue;
 
-  v = v.replace(/FacebookCantTouchThis\((.+\))/, (match, p1) =>
-    CryptoJS.AES.decrypt(p1, secretKey).toString(CryptoJS.enc.Utf8)
+  v = v.replace(
+    /FacebookCantTouchThis\((.+\))/,
+    (match, p1, offset, string) => {
+      var toReturn = "";
+      try {
+        toReturn = CryptoJS.AES.decrypt(p1, secretKey).toString(
+          CryptoJS.enc.Utf8
+        );
+      } finally {
+        return (
+          toReturn || "[Unable to decrypt. Do you have the correct secret key?]"
+        );
+      }
+    }
   );
 
   if (textNode.nodeValue !== v) {
