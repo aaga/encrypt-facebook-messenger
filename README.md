@@ -1,6 +1,15 @@
 # Encrypt Facebook Messenger - Chrome Extension
 This extension will encrypt and decrypt your messages locally in the browser so that no plain text is sent over the network to Facebook servers.
 
+## Installing the extension
+Because the extension is unpublished, you have to jump through some hoops to install it.
+- Download this repo
+- Open Chrome
+- Go to [chrome://extensions](chrome://extensions)
+- Turn on "Developer Mode" in the top right corner
+- Click "Load unpacked"
+- Navigate to and select the "Source" folder
+
 ## Setup
 - Click on the "E" icon in your toolbar
 - Click "Options"
