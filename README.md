@@ -22,18 +22,22 @@ Because the extension is unpublished (for now), you have to jump through some ho
 - Click on the "E" icon in your toolbar
 - Click "Options"
 - For each friend who also has the extension, type in their username and a previously-agreed-upon secret passphrase
-    - Usernames can be found in the address bar when you are messaging them: `https://messenger.com/t/[username]`
+    - Usernames can be found in the address bar when you are in a conversation with someone: `https://messenger.com/t/[username]`
 - Click "Save"
 - You will need to refresh messenger.com whenever you update your secret passphrases
 
 ## Usage
-Just go to messenger.com and use it as normal! Note that only text messages (i.e. not images, stickers, gifs) are encrypted for now.
+Just go to messenger.com and use it as normal! (although for now, in order to encrypt messages you have to **send by pressing "Enter"**; clicking the little paper plane will instead send the message unencrypted).
+
+Only conversations for which you have set a passphrase in "Options" will be encrypted (other conversations will continue to work unencrypted as normal).
+
+Note that **only text messages** (i.e. not images, stickers, reactions, gifs) are encrypted for now.
 
 ## TODO
 - facebook.com support
 - change message color if encrypted (option)
 - make click send button work (in addition to pressing enter)
-- handle "rich" messages (embed emoji/emoticons)
+- handle "rich" messages (embed emoji/emoticons/math equations)
 - handle images
 - handle gifs, stickers
 - handle reactions
