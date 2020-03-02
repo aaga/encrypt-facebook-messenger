@@ -1,5 +1,5 @@
 # Encrypt Facebook Messenger - Chrome Extension
-This extension will encrypt and decrypt your messages **locally** in the browser so that no plain text is sent over the network to Facebook servers.
+This extension will encrypt and decrypt your messages **locally** in the browser (using AES encryption via [CryptoJS](https://github.com/brix/crypto-js)) so that no plain text is sent over the network to Facebook servers.
 
 ![example](./encrypt-example.png)
 
