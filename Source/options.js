@@ -1,28 +1,59 @@
-// Saves options to chrome.storage
-function save_options() {
-  var secretKey1 = document.getElementById('key0').value;
-  chrome.storage.sync.set({
-    secretKeys: {default: secretKey1},
-  }, function() {
-    // Update status to let user know options were saved.
-    var status = document.getElementById('status');
-    status.textContent = 'Options saved.';
-    setTimeout(function() {
-      status.textContent = '';
-    }, 750);
-  });
-}
+$(function() {
+  $("#save").click(save_options);
+  $("#add").click(add_row);
+  restore_options();
 
-// Restores select box and checkbox state using the preferences
-// stored in chrome.storage.
-function restore_options() {
-  // Use default value color = 'red' and likesColor = true.
-  chrome.storage.sync.get({
-    secretKeys: {default: ""}
-  }, function(items) {
-    document.getElementById('key0').value = items.secretKeys.default;
-  });
-}
-document.addEventListener('DOMContentLoaded', restore_options);
-document.getElementById('save').addEventListener('click',
-    save_options);
+  // Saves options to chrome.storage
+  function save_options() {
+    var num_rows = $(":text[id^='username']").length;
+    var newSecretKeys = {};
+    for (var i = 0; i < num_rows; i++) {
+      if ($(`#username${i}`).val()) {
+        newSecretKeys[$(`#username${i}`).val()] = $(`#key${i}`).val();
+      }
+    }
+    chrome.storage.sync.set(
+      {
+        secretKeys: newSecretKeys
+      },
+      function() {
+        // Update status to let user know options were saved.
+        var status = $("#status");
+        status.text("Save successful!");
+        setTimeout(function() {
+          status.empty();
+        }, 1000);
+      }
+    );
+  }
+
+  function restore_options() {
+    chrome.storage.sync.get(
+      {
+        secretKeys: {}
+      },
+      function({ secretKeys }) {
+        keysDiv = $("#keys");
+        keysDiv.empty();
+        var i = 0;
+        Object.keys(secretKeys).forEach((username) => {
+          if (!username) return;
+          keysDiv.append(
+            `Friend's Username: <input id="username${i}" type="text" placeholder="Enter a Facebook friend's username" value="${username}"/>&nbsp;&nbsp;
+          Secret Passphrase: <input id="key${i}" type="text" placeholder="Enter a secret passphrase" value="${secretKeys[username]}"/><br/>`
+          );
+          i++;
+        });
+        if (i === 0) add_row();
+      }
+    );
+  }
+
+  function add_row() {
+    var num_rows = $(":text[id^='username']").length;
+    $("#keys").append(
+      `Friend's Username: <input id="username${num_rows}" type="text" placeholder="Enter a Facebook friend's username"/>&nbsp;&nbsp;
+  Secret Passphrase: <input id="key${num_rows}" type="text" placeholder="Enter a secret passphrase"/><br/>`
+    );
+  }
+});

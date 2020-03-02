@@ -3,6 +3,7 @@
 	"name": "Encrypt Facebook Messenger",
 	"version": "1.0",
 	"description": "Automatically encrypts and decrypts your messages on messenger.com",
+	"content_security_policy": "script-src 'self' https://code.jquery.com https://cdnjs.cloudflare.com https://stackpath.bootstrapcdn.com; object-src 'self'",
 	"permissions": [
 		"storage"
 	],

@@ -1,0 +1,20 @@
+html {
+    width: 900px;
+}
+
+body {
+    padding: 20px;
+    text-align: center;
+}
+
+input {
+    width: 275px;
+}
+
+#keys {
+    margin-top: 30px;
+}
+
+#add {
+    margin: 10px;
+}
