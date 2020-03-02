@@ -24,6 +24,7 @@ Because the extension is unpublished (for now), you have to jump through some ho
 - For each friend who also has the extension, type in their username and a previously-agreed-upon secret passphrase
     - Usernames can be found in the address bar when you are messaging them: `https://messenger.com/t/[username]`
 - Click "Save"
+- You will need to refresh messenger.com whenever you update your secret passphrases
 
 ## Usage
 Just go to messenger.com and use it as normal! Note that only text messages (i.e. not images, stickers, gifs) are encrypted for now.
