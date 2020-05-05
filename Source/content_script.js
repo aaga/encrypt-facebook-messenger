@@ -7,24 +7,33 @@ chrome.storage.sync.get(
     secretKeys: []
   },
   function({ secretKeys }) {
+    console.log("encrypt-facebook-messenger: keys loaded");
     window.secretKeys = secretKeys;
-    setInterval(() => decryptMessages(), 100);
-    document.addEventListener("keydown", e => {
+    window.addEventListener("keydown", e => {
       if (e.code === "Enter") {
         encryptMessage();
       }
-    });
+    }, true);
+    setInterval(() => decryptMessages(), 100);
   }
 );
 
 function encryptMessage() {
+  // console.log("encrypt-facebook-messenger key: " + windowKey);
+
   if (!windowKey) return;
-  var textbox = document.querySelector("div[data-block='true']");
+  // Get message input text box
+  //debugger;
+  var textbox = document.querySelector("div[aria-label='New message'] div[data-block='true']");
   var messageToSend = textbox.innerText;
+
+  // console.log("encrypting message: " + messageToSend);
+
+  if (!messageToSend.trim()) return;
 
   // Clear all text in text boxes
   var elems = [];
-  document.querySelectorAll("span[data-text='true']").forEach(elem => {
+  document.querySelectorAll("div[aria-label='New message'] span[data-text='true']").forEach(elem => {
     elems.push(elem);
   });
   elems.reverse().map(elem => {
@@ -36,6 +45,9 @@ function encryptMessage() {
     "FacebookCantTouchThis(" +
     CryptoJS.AES.encrypt(messageToSend, windowKey).toString() +
     ")";
+
+  // console.log("encrypted message: " + textbox.innerText);
+
   textbox.dispatchEvent(inputChangedEvent);
 }
 
