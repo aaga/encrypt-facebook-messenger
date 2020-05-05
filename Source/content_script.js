@@ -35,8 +35,6 @@ function encryptMessage() {
 
   // console.log("encrypting message: " + messageToSend);
 
-  if (!messageToSend.trim()) return;
-
   // Clear all text in text boxes
   var elems = [];
   document
@@ -65,7 +63,7 @@ function decryptMessages() {
   var divsToDecrypt = document.querySelectorAll(
     "div[aria-label='Messages'], div[class*='ellipsis'], div[aria-label='Conversations']"
   );
-  divsToDecrypt.forEach(div => {
+  divsToDecrypt.forEach((div) => {
     walk(div, windowKey);
   });
 }

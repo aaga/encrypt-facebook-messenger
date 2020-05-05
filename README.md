@@ -41,4 +41,4 @@ Note that **only text messages** (i.e. not images, stickers, reactions, gifs) ar
 - handle images
 - handle gifs, stickers
 - handle reactions
-- handle replies (maybe already done?)
+- handle multi-line messages
