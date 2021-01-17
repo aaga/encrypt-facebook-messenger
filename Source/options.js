@@ -1,4 +1,4 @@
-$(function() {
+$(function () {
   $("#save").click(save_options);
   $("#add").click(add_row);
   restore_options();
@@ -14,13 +14,13 @@ $(function() {
     }
     chrome.storage.sync.set(
       {
-        secretKeys: newSecretKeys
+        secretKeys: newSecretKeys,
       },
-      function() {
+      function () {
         // Update status to let user know options were saved.
         var status = $("#status");
         status.text("Save successful!");
-        setTimeout(function() {
+        setTimeout(function () {
           status.empty();
         }, 1000);
       }
@@ -30,16 +30,16 @@ $(function() {
   function restore_options() {
     chrome.storage.sync.get(
       {
-        secretKeys: {}
+        secretKeys: {},
       },
-      function({ secretKeys }) {
+      function ({ secretKeys }) {
         keysDiv = $("#keys");
         keysDiv.empty();
         var i = 0;
         Object.keys(secretKeys).forEach((username) => {
           if (!username) return;
           keysDiv.append(
-            `Friend's Username: <input id="username${i}" type="text" placeholder="Enter a Facebook friend's username" value="${username}"/>&nbsp;&nbsp;
+            `Conversation ID: <input id="username${i}" type="text" placeholder="Enter a conversation ID" value="${username}"/>&nbsp;&nbsp;
           Secret Passphrase: <input id="key${i}" type="text" placeholder="Enter a secret passphrase" value="${secretKeys[username]}"/><br/>`
           );
           i++;
@@ -52,7 +52,7 @@ $(function() {
   function add_row() {
     var num_rows = $(":text[id^='username']").length;
     $("#keys").append(
-      `Friend's Username: <input id="username${num_rows}" type="text" placeholder="Enter a Facebook friend's username"/>&nbsp;&nbsp;
+      `Conversation ID: <input id="username${num_rows}" type="text" placeholder="Enter a conversation ID"/>&nbsp;&nbsp;
   Secret Passphrase: <input id="key${num_rows}" type="text" placeholder="Enter a secret passphrase"/><br/>`
     );
   }

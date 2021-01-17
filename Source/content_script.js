@@ -23,46 +23,27 @@ chrome.storage.sync.get(
 );
 
 function encryptMessage() {
-  // console.log("encrypt-facebook-messenger key: " + windowKey);
+  console.log("encrypt-facebook-messenger key: " + windowKey);
 
   if (!windowKey) return;
-  // Get message input text box
-  //debugger;
-  var textbox = document.querySelector(
-    "div[aria-label='New message'] div[data-block='true']"
-  );
-  var messageToSend = textbox.innerText;
 
-  // console.log("encrypting message: " + messageToSend);
-
-  // Clear all text in text boxes
-  var elems = [];
+  // Convert each text "block"
   document
-    .querySelectorAll("div[aria-label='New message'] span[data-text='true']")
+    .querySelectorAll("div[contenteditable='true'] span[data-text='true']")
     .forEach((elem) => {
-      elems.push(elem);
+      if (elem.innerText.includes("FacebookCantTouchThis")) return;
+      elem.innerText =
+        "FacebookCantTouchThis(" +
+        CryptoJS.AES.encrypt(elem.innerText, windowKey).toString() +
+        ")";
+      elem.dispatchEvent(inputChangedEvent);
     });
-  elems.reverse().map((elem) => {
-    elem.innerText = "";
-    elem.dispatchEvent(inputChangedEvent);
-  });
-
-  textbox.innerText =
-    "FacebookCantTouchThis(" +
-    CryptoJS.AES.encrypt(messageToSend, windowKey).toString() +
-    ")";
-
-  // console.log("encrypted message: " + textbox.innerText);
-
-  textbox.dispatchEvent(inputChangedEvent);
 }
 
 function decryptMessages() {
   var username = window.location.toString().split("/").pop();
   windowKey = secretKeys.hasOwnProperty(username) ? secretKeys[username] : null;
-  var divsToDecrypt = document.querySelectorAll(
-    "div[aria-label='Messages'], div[class*='ellipsis'], div[aria-label='Conversations']"
-  );
+  var divsToDecrypt = document.querySelectorAll("div[role='row']");
   divsToDecrypt.forEach((div) => {
     walk(div, windowKey);
   });
